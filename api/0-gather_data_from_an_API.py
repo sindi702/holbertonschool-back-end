@@ -8,9 +8,9 @@ import sys
 if __name__ == "__main__":
     """Get api bob"""
     todos_api = requests.get(
-        'https://jsonplaceholder.typicode.com/todos/')
+        'https://jsonplaceholder.typicode.com/todos')
     user_api = requests.get(
-        'https://jsonplaceholder.typicode.com/users/{}'.format(sys.argv[1]))
+        'https://jsonplaceholder.typicode.com/users'.format(sys.argv[1]))
     todo_data = todos_api.text
     user_data = user_api.text
     user = json.loads(user_data)
