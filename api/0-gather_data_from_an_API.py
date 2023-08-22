@@ -27,5 +27,3 @@ if __name__ == "__main__":
         .format(user['name'], len(completed), all_todos), file=sys.stdout)
     for finished_todo in completed:
         print('\t {}'.format(finished_todo['title']), file=sys.stdout)
-
-    
