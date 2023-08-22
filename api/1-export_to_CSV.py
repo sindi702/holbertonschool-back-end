@@ -22,12 +22,10 @@ if __name__ == "__main__":
         if todo['userId'] == user['id']:
             all_todos.append(
                 (user['id'], user['username'], todo['completed'],
-            todo['title']))
+                todo['title']))
     filename = "{}.csv".format(user['id'])
     with open(filename, 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=',',
                                 quotechar='"', quoting=csv.QUOTE_ALL)
         for todo in all_todos:
             spamwriter.writerow(todo)
-
-
