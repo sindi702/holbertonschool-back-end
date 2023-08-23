@@ -1,35 +1,31 @@
 #!/usr/bin/python3
-"""
-Checks student output for returning info from REST API
-"""
-
+""" Getting my first apis and writing to csv """
+import csv
+import json
 import requests
 import sys
 
-users_url = "https://jsonplaceholder.typicode.com/users"
-todos_url = "https://jsonplaceholder.typicode.com/todos"
-
-
-def first_line(id):
-    """ Fetch user name """
-
-    resp = requests.get(users_url).json()
-
-    name = None
-    for i in resp:
-        if i['id'] == id:
-            name = i['name']
-
-    filename = 'student_output'
-
-    with open(filename, 'r') as f:
-        first = f.readline().strip()
-
-    if name in first:
-        print("Employee Name: OK")
-    else:
-        print("Employee Name: Incorrect")
-
 
 if __name__ == "__main__":
-    first_line(int(sys.argv[1]))
+    """Get api bob"""
+
+    todos_api = requests.get(
+        'https://jsonplaceholder.typicode.com/todos/')
+    user_api = requests.get(
+        'https://jsonplaceholder.typicode.com/users/{}'.format(sys.argv[1]))
+    todo_data = todos_api.text
+    user_data = user_api.text
+    user = json.loads(user_data)
+    todos = json.loads(todo_data)
+    all_todos = []
+    for todo in todos:
+        if todo['userId'] == user['id']:
+            all_todos.append(
+                (user['id'], user['username'], todo['completed'],
+                todo['title']))
+    filename = "{}.csv".format(user['id'])
+    with open(filename, 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+                                quotechar='"', quoting=csv.QUOTE_ALL)
+        for todo in all_todos:
+            spamwriter.writerow(todo)
